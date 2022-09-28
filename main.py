@@ -11,6 +11,8 @@ class Vacancy:
         self.vac_discript = vac_discript
         self.vac_salary = vac_salary
 
+    """Создаём класс для отображения информации через магический метод repr__"""
+
     def __repr__(self):
         return f'Вакансия {self.vac_name}\nссылка на описание: {self.vac_url}\nнеобходимые навыки: {self.vac_discript}\n' \
                f'с зарплатой {self.vac_salary}'
@@ -23,21 +25,11 @@ def NoneToStr(obj):
         return obj
 
 
-# """Преобразуем json файл в список для дальнейшей обработки"""
-# with open('data_page0.json', 'r', encoding='utf-8') as file:
-#     data_list = json.load(file)
-# it = data_list[0]
-# print(data_list)
-
 headers = {
     'User-Agent': 'api-test-agent',
 }
 
-# str = input("Введите интересующую вас профессию: ")  # Ключевое слово для поиска
-str = "Python"
-date_from = (datetime.datetime.now() - datetime.timedelta(minutes=5)).strftime(
-    '%Y-%m-%dT%H:%M:%S')  # Дата начала поиска Пока не реализовали
-date_to = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+search_prof = input("Введите искомую профессию: ")  # Ключевое слово для поиска
 
 # Цикл с несколькими запросами
 for i in range(1):
@@ -49,7 +41,7 @@ for i in range(1):
 
     # Отправляем запрос на получение вакансий с i-ой страницы
     response = requests.get(
-        'https://api.hh.ru/vacancies?text={}&per_page={}&page={}'.format(str, per_page, i), headers=headers,
+        'https://api.hh.ru/vacancies?text={}&per_page={}&page={}'.format(search_prof, per_page, i), headers=headers,
         verify=False)
 
     # print(response)  # Статус запроса (200 - нет ошибки, else ошибка) см стандарт html
@@ -60,12 +52,11 @@ for i in range(1):
 
     Vacancys = []
 
-
     for job in json_resp["items"]:
         name = job["name"]
         url = job["url"]
 
-        discript = NoneToStr(job["snippet"]["requirement"]) + NoneToStr(job["snippet"]["responsibility"])  # TODO LOGIG CAN'T BE NONE
+        discript = NoneToStr(job["snippet"]["requirement"]) + NoneToStr(job["snippet"]["responsibility"])
 
         if job['salary'] is None:
             salary = "Нет данных"
@@ -82,6 +73,4 @@ for i in range(1):
     with open('data_page{}.json'.format(i), 'a', encoding='utf-8') as file:
         json.dump(todos, file, ensure_ascii=False, indent=4)
 
-    ## Добавить обработку json создать экземляры класса vacancy
 
-"""Создаём класс для отображения информации через магический метод repr__"""
