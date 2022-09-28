@@ -37,7 +37,7 @@ for i in range(1):
     with open('data_page{}.json'.format(i), 'w', encoding='utf-8') as empty_file:
         pass
 
-    per_page = 100  # Кол-во вакансий на 1 странице
+    per_page = input("Введите количество вакансий на одной странице: ")  # Кол-во вакансий на 1 странице
 
     # Отправляем запрос на получение вакансий с i-ой страницы
     response = requests.get(
@@ -54,7 +54,7 @@ for i in range(1):
 
     for job in json_resp["items"]:
         name = job["name"]
-        url = job["url"]
+        url = job["apply_alternate_url"]
 
         discript = NoneToStr(job["snippet"]["requirement"]) + NoneToStr(job["snippet"]["responsibility"])
 
