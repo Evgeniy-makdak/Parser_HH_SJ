@@ -12,7 +12,8 @@ class Vacancy:
         self.vac_salary = vac_salary
 
     def __repr__(self):
-        return f'Вакансия {job["name"]}\nссылка на описание: {job["url"]}'
+        return f'Вакансия {self.vac_name}\nссылка на описание: {self.vac_url}\nнеобходимые навыки: {self.vac_discript}\n' \
+               f'с зарплатой {self.vac_salary}'
 
 
 def NoneToStr(obj):
@@ -72,7 +73,7 @@ for i in range(1):
             salary = (job['salary']['from'], job['salary']['to'])
         new_vacancy = Vacancy(name, url, discript, salary)
         Vacancys.append(new_vacancy)
-        print(job)
+        # print(job)
 
     for vac in Vacancys:
         print(vac)
