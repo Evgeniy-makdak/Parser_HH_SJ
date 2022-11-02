@@ -1,6 +1,6 @@
 import requests
 import json
-import datetime
+
 
 
 class Vacancy:
